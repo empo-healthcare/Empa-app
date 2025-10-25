@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMPO APP - Empathy Monitoring for Healthcare</title>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkVNUE8gQVBQIC0gRW1wYXRoeSBNb25pdG9yaW5nIiwKICAic2hvcnRfbmFtZSI6ICJFTVBPIEFQUCIsCiAgImRlc2NyaXB0aW9uIjogIkVtcGF0aHkgbW9uaXRvcmluZyB0ZWNobm9sb2d5IGZvciBoZWFsdGhjYXJlIHByb2Zlc3Npb25hbHMiLAogICJzdGFydF91cmwiOiAiLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzY2N2VlYSIsCiAgInRoZW1lX2NvbG9yIjogIiM2NjdlZWEiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUIzYVdSMGFEMGlNVEk0SWlCb1pXbG5hSFE5SWpFeU9DSWlJSFpwWlhkQ2IzZzlJakFnTUNBeE1qZ2dNVEk0SWlCbWFXeHNQU0lqTmpZM1pXVmhJaUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lQanhqYVhKamJHVWdZM2c5SWpZMElpQmplVDBpTmpRaUlISTlJalV3SWlCbWFXeHNQU0lqTWpOak16VXdJaTgrUEdOcGNtTnNaU0JqZUQwaU5qUWlJR041UFNJMk5DSWlJSEk5SWpRd0lpQm1hV3hzUFNJak1URmhNalV5WmlJdlBqd3ZjM1puUGc9PSIsCiAgICAgICJzaXplcyI6ICIxMjh4MTI4IiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBDCX0=">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="EMPO APP">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+            color: #333;
+        }
+        
+        html {
+            height: 100%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .watch-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .watch {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #2c3e50;
+            border: 8px solid #34495e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .watch-face {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: #1a252f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .vibrating {
+            animation: vibrate 0.1s infinite;
+        }
+        
+        .vibrating-soft {
+            animation: vibrate-soft 0.3s infinite;
+        }
+        
+        .vibrating-medium {
+            animation: vibrate-medium 0.2s infinite;
+        }
+        
+        .vibrating-hard {
+            animation: vibrate-hard 0.1s infinite;
+        }
+        
+        @keyframes vibrate-soft {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-1px); }
+            75% { transform: translateX(1px); }
+        }
+        
+        @keyframes vibrate-medium {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+        
+        @keyframes vibrate-hard {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-3px) translateY(-1px); }
+            20% { transform: translateX(3px) translateY(1px); }
+            30% { transform: translateX(-3px) translateY(-1px); }
+            40% { transform: translateX(3px) translateY(1px); }
+            50% { transform: translateX(-2px) translateY(-1px); }
+            60% { transform: translateX(2px) translateY(1px); }
+            70% { transform: translateX(-1px) translateY(-1px); }
+            80% { transform: translateX(1px) translateY(1px); }
+            90% { transform: translateX(-1px); }
+        }
+        
+        .empathy-indicator {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            animation: pulse 2s infinite;
+            margin-bottom: 10px;
+        }
+        
+        .empathy-level {
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .scenario-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .low-empathy { background: #e74c3c; }
+        .low-empathy:hover { background: #c0392b; }
+        
+        .needs-improvement { background: #3498db; }
+        .needs-improvement:hover { background: #2980b9; }
+        
+        .high-empathy { background: #f39c12; }
+        .high-empathy:hover { background: #e67e22; }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .info-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .info-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .benefits {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .benefits h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+        
+        .benefit-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .benefit-icon {
+            font-size: 2rem;
+            margin-top: 0.2rem;
+        }
+        
+        .current-status {
+            text-align: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .install-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-right: 1rem;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .install-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EMPO APP</h1>
+            <p>Empathy Monitoring Technology for Healthcare Professionals</p>
+            <div style="margin-top: 2rem;">
+                <button onclick="installApp()" id="install-btn" class="install-btn">
+                    📱 Install EMPO APP
+                </button>
+                <button onclick="window.open('https://apps.apple.com/app/empo-app', '_blank')" style="padding: 1rem 2rem; background: #000; color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; margin-right: 1rem;">
+                    🍎 Download for iOS
+                </button>
+                <button onclick="window.open('https://play.google.com/store/apps/details?id=com.empoapp', '_blank')" style="padding: 1rem 2rem; background: #01875f; color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer;">
+                    🤖 Download for Android
+                </button>
+            </div>
+            <div style="margin-top: 1rem; color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+                Available as a web app • Works offline • Real-time monitoring
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 2rem;">Interactive Demo</h2>
+            
+            <div class="watch-container">
+                <div class="watch">
+                    <div class="watch-face" id="watch-face" onclick="toggleVibration()">
+                        <div class="empathy-indicator" id="indicator"></div>
+                        <div class="empathy-level" id="level-text">Normal</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 1rem 0;">
+                <p style="color: #666; font-size: 0.9rem;">Click the watch to feel vibration • Energy sensors active</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👩‍⚕️</div>
+                    <div style="font-size: 0.8rem; color: #666;">Doctor's Empathy</div>
+                    <div id="doctor-empathy" style="font-weight: bold; color: #2c3e50;">Moderate</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🤒</div>
+                    <div style="font-size: 0.8rem; color: #666;">Patient's Need</div>
+                    <div id="patient-need" style="font-weight: bold; color: #2c3e50;">Moderate</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚖️</div>
+                    <div style="font-size: 0.8rem; color: #666;">Match Level</div>
+                    <div id="match-level" style="font-weight: bold; color: #2c3e50;">Balanced</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📳</div>
+                    <div style="font-size: 0.8rem; color: #666;">Vibration</div>
+                    <div id="vibration-level" style="font-weight: bold; color: #2c3e50;">Off</div>
+                </div>
+            </div>
+            
+            <div class="current-status" id="status">
+                Watch is monitoring empathy levels in the room...
+            </div>
+            
+            <div style="margin: 2rem 0;">
+                <h3 style="text-align: center; color: #2c3e50; margin-bottom: 1rem;">Patient Scenarios</h3>
+                <div class="controls">
+                    <button class="scenario-btn low-empathy" onclick="setPatientScenario('anxious')">
+                        😰 Anxious Patient - High Need
+                    </button>
+                    <button class="scenario-btn needs-improvement" onclick="setPatientScenario('routine')">
+                        😐 Routine Visit - Moderate Need
+                    </button>
+                    <button class="scenario-btn high-empathy" onclick="setPatientScenario('comfortable')">
+                        😊 Comfortable Patient - Low Need
+                    </button>
+                </div>
+            </div>
+            
+            <div style="margin: 2rem 0;">
+                <h3 style="text-align: center; color: #2c3e50; margin-bottom: 1rem;">Doctor Response Levels</h3>
+                <div class="controls">
+                    <button class="scenario-btn low-empathy" onclick="setDoctorEmpathy('low')">
+                        🔴 Low Empathy - Rushed/Distracted
+                    </button>
+                    <button class="scenario-btn needs-improvement" onclick="setDoctorEmpathy('moderate')">
+                        🔵 Moderate Empathy - Professional
+                    </button>
+                    <button class="scenario-btn high-empathy" onclick="setDoctorEmpathy('high')">
+                        🟡 High Empathy - Deeply Caring
+                    </button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 2rem 0;">
+                <button onclick="startEnergyDetection()" style="padding: 1rem 2rem; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; margin-right: 1rem;">
+                    🔍 Start Energy Detection
+                </button>
+                <button onclick="stopEnergyDetection()" style="padding: 1rem 2rem; background: #e74c3c; color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer;">
+                    ⏹️ Stop Detection
+                </button>
+            </div>
+            
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; padding: 1.5rem; margin: 2rem 0;">
+                <h3 style="color: #856404; margin-bottom: 1rem; text-align: center;">🎤 Harmful Word Detection</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin-bottom: 1rem;">
+                    <button onclick="simulateHarmfulWord('hate')" style="padding: 0.6rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        💔 "I hate you"
+                    </button>
+                    <button onclick="simulateHarmfulWord('hopeless')" style="padding: 0.6rem; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😞 "I'll never get better"
+                    </button>
+                    <button onclick="simulateHarmfulWord('unwanted')" style="padding: 0.6rem; background: #fd7e14; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😔 "I don't want to be here"
+                    </button>
+                    <button onclick="simulateHarmfulWord('worthless')" style="padding: 0.6rem; background: #495057; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        💔 "I'm worthless"
+                    </button>
+                    <button onclick="simulateHarmfulWord('stupid')" style="padding: 0.6rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😡 "I'm so stupid"
+                    </button>
+                    <button onclick="simulateHarmfulWord('failure')" style="padding: 0.6rem; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😢 "I'm a failure"
+                    </button>
+                    <button onclick="simulateHarmfulWord('burden')" style="padding: 0.6rem; background: #fd7e14; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😰 "I'm a burden"
+                    </button>
+                    <button onclick="simulateHarmfulWord('die')" style="padding: 0.6rem; background: #495057; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        💀 "I want to die"
+                    </button>
+                    <button onclick="simulateHarmfulWord('pain')" style="padding: 0.6rem; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😣 "I can't take the pain"
+                    </button>
+                    <button onclick="simulateHarmfulWord('alone')" style="padding: 0.6rem; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😔 "I'm all alone"
+                    </button>
+                    <button onclick="simulateHarmfulWord('scared')" style="padding: 0.6rem; background: #fd7e14; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😨 "I'm so scared"
+                    </button>
+                    <button onclick="simulateHarmfulWord('angry')" style="padding: 0.6rem; background: #495057; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                        😠 "I hate this place"
+                    </button>
+                </div>
+                <div id="word-detection-status" style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px; color: #666;">
+                    Click buttons above to simulate harmful words detected in the room
+                </div>
+                <div id="help-suggestions" style="margin-top: 1rem; padding: 1rem; background: #e8f5e8; border-radius: 8px; border-left: 4px solid #27ae60; display: none;">
+                    <h4 style="color: #27ae60; margin-bottom: 0.5rem;">💚 How to Help:</h4>
+                    <div id="help-content" style="color: #155724;"></div>
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🔴 Red Alert - Empathy Mismatch</h3>
+                    <p>Hard vibration alerts when there's a critical gap between patient needs and doctor's empathy level. This happens when anxious patients receive low empathy, or when the care level doesn't match emotional needs.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>🔵 Blue Signal - Adjustment Needed</h3>
+                    <p>Medium vibration suggests fine-tuning empathy levels. The patient may need slightly more or less emotional support than currently being provided. Small adjustments can make a big difference.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>🟡 Yellow Glow - Perfect Match</h3>
+                    <p>No vibration needed when empathy is perfectly aligned. The doctor's care level matches exactly what the patient needs emotionally, creating the ideal healing environment. The watch stays calm and steady.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 1rem;">Pricing & Investment</h2>
+            <div style="text-align: center; background: #e8f5e8; padding: 1rem; border-radius: 10px; margin-bottom: 2rem; border-left: 5px solid #27ae60;">
+                <h3 style="color: #27ae60; margin-bottom: 0.5rem;">💚 Affordable for ALL Healthcare Workers</h3>
+                <p style="margin: 0; color: #666;">Professional empathy monitoring technology for healthcare providers at $199!</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 20px; text-align: center;">
+                    <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Individual Doctor</h3>
+                    <div style="font-size: 3rem; font-weight: bold; margin: 1rem 0;">$199</div>
+                    <div style="opacity: 0.9; margin-bottom: 1.5rem;">One-time purchase</div>
+                    <ul style="list-style: none; padding: 0; margin: 1.5rem 0;">
+                        <li style="margin: 0.5rem 0;">✓ Empo Watch Device</li>
+                        <li style="margin: 0.5rem 0;">✓ Real-time Empathy Monitoring</li>
+                        <li style="margin: 0.5rem 0;">✓ Patient Need Detection</li>
+                        <li style="margin: 0.5rem 0;">✓ Vibration Alerts</li>
+                        <li style="margin: 0.5rem 0;">✓ 2-year Warranty</li>
+                        <li style="margin: 0.5rem 0;">✓ Basic Training Session</li>
+                    </ul>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 2rem; border-radius: 20px; text-align: center; position: relative;">
+                    <div style="position: absolute; top: -10px; right: 20px; background: #ff6b6b; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">POPULAR</div>
+                    <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Hospital Department</h3>
+                    <div style="font-size: 3rem; font-weight: bold; margin: 1rem 0;">$149</div>
+                    <div style="opacity: 0.9; margin-bottom: 1.5rem;">Per device (10+ units)</div>
+                    <ul style="list-style: none; padding: 0; margin: 1.5rem 0;">
+                        <li style="margin: 0.5rem 0;">✓ All Individual Features</li>
+                        <li style="margin: 0.5rem 0;">✓ Department Dashboard</li>
+                        <li style="margin: 0.5rem 0;">✓ Team Analytics</li>
+                        <li style="margin: 0.5rem 0;">✓ Custom Training Program</li>
+                        <li style="margin: 0.5rem 0;">✓ 3-year Warranty</li>
+                        <li style="margin: 0.5rem 0;">✓ 24/7 Support</li>
+                    </ul>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #2c3e50; padding: 2rem; border-radius: 20px; text-align: center;">
+                    <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Enterprise Hospital</h3>
+                    <div style="font-size: 3rem; font-weight: bold; margin: 1rem 0;">$99</div>
+                    <div style="opacity: 0.7; margin-bottom: 1.5rem;">Per device (50+ units)</div>
+                    <ul style="list-style: none; padding: 0; margin: 1.5rem 0;">
+                        <li style="margin: 0.5rem 0;">✓ All Department Features</li>
+                        <li style="margin: 0.5rem 0;">✓ Hospital-wide Analytics</li>
+                        <li style="margin: 0.5rem 0;">✓ Integration with EMR</li>
+                        <li style="margin: 0.5rem 0;">✓ Custom Reporting</li>
+                        <li style="margin: 0.5rem 0;">✓ 5-year Warranty</li>
+                        <li style="margin: 0.5rem 0;">✓ Dedicated Account Manager</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                <h3 style="text-align: center; color: #2c3e50; margin-bottom: 1.5rem;">Return on Investment</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📈</div>
+                        <h4 style="color: #27ae60; margin-bottom: 0.5rem;">15-25%</h4>
+                        <p style="margin: 0; color: #666;">Increase in patient satisfaction scores</p>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💰</div>
+                        <h4 style="color: #27ae60; margin-bottom: 0.5rem;">$50K+</h4>
+                        <p style="margin: 0; color: #666;">Annual savings from reduced malpractice risk</p>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⏱️</div>
+                        <h4 style="color: #27ae60; margin-bottom: 0.5rem;">3-6 months</h4>
+                        <p style="margin: 0; color: #666;">Typical payback period</p>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👥</div>
+                        <h4 style="color: #27ae60; margin-bottom: 0.5rem;">30%</h4>
+                        <p style="margin: 0; color: #666;">Reduction in staff burnout rates</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: #e8f5e8; padding: 2rem; border-radius: 15px; border-left: 5px solid #27ae60;">
+                <h3 style="color: #27ae60; margin-bottom: 1rem;">💡 Cost Comparison</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>
+                        <strong>Traditional Empathy Training:</strong><br>
+                        <span style="color: #666;">$2,000-5,000 per doctor annually</span>
+                    </div>
+                    <div>
+                        <strong>Empo Watch:</strong><br>
+                        <span style="color: #27ae60;">$199 one-time investment</span>
+                    </div>
+                    <div>
+                        <strong>Patient Complaint Costs:</strong><br>
+                        <span style="color: #666;">$25,000-100,000 per incident</span>
+                    </div>
+                    <div>
+                        <strong>Prevention Value:</strong><br>
+                        <span style="color: #27ae60;">Priceless patient relationships</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="benefits">
+            <h2>Benefits for Healthcare Professionals</h2>
+            <div class="benefit-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">👩‍⚕️</div>
+                    <div>
+                        <h4>For New Doctors</h4>
+                        <p>Provides real-time feedback to develop empathy skills and build confidence in patient interactions during the learning phase.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">👨‍⚕️</div>
+                    <div>
+                        <h4>For Experienced Doctors</h4>
+                        <p>Helps maintain empathy awareness during busy schedules and prevents compassion fatigue from affecting patient care quality.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">❤️</div>
+                    <div>
+                        <h4>Improved Patient Outcomes</h4>
+                        <p>Higher empathy levels correlate with better patient satisfaction, treatment compliance, and overall healing experiences.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">📊</div>
+                    <div>
+                        <h4>Data-Driven Insights</h4>
+                        <p>Tracks empathy patterns over time, helping identify stress factors and optimize work schedules for better patient care.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <div>
+                        <h4>Mindful Practice</h4>
+                        <p>Encourages mindful, present-moment awareness during patient interactions, reducing burnout and increasing job satisfaction.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">🏥</div>
+                    <div>
+                        <h4>Better Healthcare Culture</h4>
+                        <p>Promotes a culture of empathy and compassion throughout healthcare teams and institutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDoctorEmpathy = 'moderate';
+        let currentPatientNeed = 'moderate';
+        let isVibrating = false;
+        let energyDetectionActive = false;
+        let detectionInterval;
+        
+        function setPatientScenario(scenario) {
+            const patientNeed = document.getElementById('patient-need');
+            
+            switch(scenario) {
+                case 'anxious':
+                    currentPatientNeed = 'high';
+                    patientNeed.textContent = 'High Need';
+                    patientNeed.style.color = '#e74c3c';
+                    break;
+                case 'routine':
+                    currentPatientNeed = 'moderate';
+                    patientNeed.textContent = 'Moderate Need';
+                    patientNeed.style.color = '#3498db';
+                    break;
+                case 'comfortable':
+                    currentPatientNeed = 'low';
+                    patientNeed.textContent = 'Low Need';
+                    patientNeed.style.color = '#27ae60';
+                    break;
+            }
+            updateWatchDisplay();
+        }
+        
+        function setDoctorEmpathy(level) {
+            const doctorEmpathy = document.getElementById('doctor-empathy');
+            
+            switch(level) {
+                case 'low':
+                    currentDoctorEmpathy = 'low';
+                    doctorEmpathy.textContent = 'Low';
+                    doctorEmpathy.style.color = '#e74c3c';
+                    break;
+                case 'moderate':
+                    currentDoctorEmpathy = 'moderate';
+                    doctorEmpathy.textContent = 'Moderate';
+                    doctorEmpathy.style.color = '#3498db';
+                    break;
+                case 'high':
+                    currentDoctorEmpathy = 'high';
+                    doctorEmpathy.textContent = 'High';
+                    doctorEmpathy.style.color = '#27ae60';
+                    break;
+            }
+            updateWatchDisplay();
+        }
+        
+        function updateWatchDisplay() {
+            const indicator = document.getElementById('indicator');
+            const levelText = document.getElementById('level-text');
+            const status = document.getElementById('status');
+            const watchFace = document.getElementById('watch-face');
+            const vibrationLevel = document.getElementById('vibration-level');
+            const matchLevel = document.getElementById('match-level');
+            
+            // Remove existing vibration classes
+            watchFace.className = 'watch-face';
+            
+            // Calculate empathy match
+            let empathyGap = calculateEmpathyGap();
+            let alertLevel = determineAlertLevel(empathyGap);
+            
+            // Update match level display
+            updateMatchLevel(empathyGap);
+            
+            switch(alertLevel) {
+                case 'critical':
+                    indicator.style.background = 'linear-gradient(45deg, #e74c3c, #c0392b)';
+                    indicator.style.boxShadow = '0 0 20px #e74c3c';
+                    levelText.textContent = 'MISMATCH';
+                    status.textContent = '🔴 Critical Alert: Patient needs more empathy than being provided. Hard vibration to adjust approach.';
+                    status.style.background = '#fee';
+                    status.style.color = '#c0392b';
+                    if (isVibrating) watchFace.classList.add('vibrating-hard');
+                    break;
+                    
+                case 'moderate':
+                    indicator.style.background = 'linear-gradient(45deg, #3498db, #2980b9)';
+                    indicator.style.boxShadow = '0 0 20px #3498db';
+                    levelText.textContent = 'ADJUST';
+                    status.textContent = '🔵 Medium vibration: Empathy levels could better match patient needs. Consider adjusting your approach.';
+                    status.style.background = '#eef7ff';
+                    status.style.color = '#2980b9';
+                    if (isVibrating) watchFace.classList.add('vibrating-medium');
+                    break;
+                    
+                case 'optimal':
+                    indicator.style.background = 'linear-gradient(45deg, #f39c12, #e67e22)';
+                    indicator.style.boxShadow = '0 0 20px #f39c12';
+                    levelText.textContent = 'MATCHED';
+                    status.textContent = '🟡 Perfect empathy match! Your care level aligns beautifully with patient needs. No vibration needed.';
+                    status.style.background = '#fffbf0';
+                    status.style.color = '#e67e22';
+                    // No vibration for optimal matches
+                    break;
+            }
+        }
+        
+        function calculateEmpathyGap() {
+            const needLevels = { 'low': 1, 'moderate': 2, 'high': 3 };
+            const empathyLevels = { 'low': 1, 'moderate': 2, 'high': 3 };
+            
+            return needLevels[currentPatientNeed] - empathyLevels[currentDoctorEmpathy];
+        }
+        
+        function determineAlertLevel(gap) {
+            if (Math.abs(gap) >= 2) return 'critical';
+            if (Math.abs(gap) === 1) return 'moderate';
+            return 'optimal';
+        }
+        
+        function updateMatchLevel(gap) {
+            const matchLevel = document.getElementById('match-level');
+            
+            if (gap > 0) {
+                matchLevel.textContent = 'Under-caring';
+                matchLevel.style.color = '#e74c3c';
+            } else if (gap < 0) {
+                matchLevel.textContent = 'Over-caring';
+                matchLevel.style.color = '#f39c12';
+            } else {
+                matchLevel.textContent = 'Balanced';
+                matchLevel.style.color = '#27ae60';
+            }
+        }
+        
+        function toggleVibration() {
+            const watchFace = document.getElementById('watch-face');
+            const vibrationLevel = document.getElementById('vibration-level');
+            
+            isVibrating = !isVibrating;
+            
+            if (isVibrating) {
+                updateWatchDisplay(); // This will add appropriate vibration
+                vibrationLevel.textContent = 'Active';
+                vibrationLevel.style.color = '#27ae60';
+            } else {
+                // Remove all vibration classes
+                watchFace.classList.remove('vibrating-soft', 'vibrating-medium', 'vibrating-hard');
+                vibrationLevel.textContent = 'Off';
+                vibrationLevel.style.color = '#e74c3c';
+            }
+        }
+        
+        function startEnergyDetection() {
+            energyDetectionActive = true;
+            
+            // Simulate continuous patient and doctor state changes
+            detectionInterval = setInterval(() => {
+                // Randomly change patient scenarios
+                const patientScenarios = ['anxious', 'routine', 'comfortable'];
+                const doctorLevels = ['low', 'moderate', 'high'];
+                
+                // Weight towards more realistic combinations
+                const randomPatient = patientScenarios[Math.floor(Math.random() * patientScenarios.length)];
+                const randomDoctor = doctorLevels[Math.floor(Math.random() * doctorLevels.length)];
+                
+                setPatientScenario(randomPatient);
+                setTimeout(() => {
+                    setDoctorEmpathy(randomDoctor);
+                }, 1000);
+                
+                // Auto-vibrate when changes occur
+                if (!isVibrating) {
+                    toggleVibration();
+                    // Stop vibration after 3 seconds
+                    setTimeout(() => {
+                        if (isVibrating) toggleVibration();
+                    }, 3000);
+                }
+                
+            }, 5000);
+        }
+        
+        function stopEnergyDetection() {
+            energyDetectionActive = false;
+            if (detectionInterval) {
+                clearInterval(detectionInterval);
+            }
+            
+            // Stop vibration
+            if (isVibrating) {
+                toggleVibration();
+            }
+        }
+        
+        function simulateHarmfulWord(wordType) {
+            const wordStatus = document.getElementById('word-detection-status');
+            const status = document.getElementById('status');
+            const indicator = document.getElementById('indicator');
+            const levelText = document.getElementById('level-text');
+            const watchFace = document.getElementById('watch-face');
+            const helpSuggestions = document.getElementById('help-suggestions');
+            const helpContent = document.getElementById('help-content');
+            
+            // AUTOMATICALLY change sensor color immediately when negative words are detected
+            levelText.textContent = 'ALERT';
+            levelText.style.color = '#dc3545';
+            
+            let detectedPhrase = '';
+            let empathyImpact = '';
+            let recommendedResponse = '';
+            let helpActions = '';
+            
+            switch(wordType) {
+                case 'hate':
+                    detectedPhrase = '"I hate you"';
+                    empathyImpact = 'Severe emotional distress detected. Patient expressing anger and rejection.';
+                    recommendedResponse = 'Immediate empathetic response needed. Acknowledge feelings without taking it personally.';
+                    helpActions = '• Stay calm and don\'t take it personally<br>• Say: "I can see you\'re really upset. That must be very difficult."<br>• Give them space to express their feelings<br>• Ask: "Can you help me understand what\'s making you feel this way?"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'low';
+                    // Anger - Deep red
+                    indicator.style.background = 'linear-gradient(45deg, #8B0000, #DC143C)';
+                    indicator.style.boxShadow = '0 0 30px #DC143C';
+                    break;
+                    
+                case 'hopeless':
+                    detectedPhrase = '"I\'ll never get better"';
+                    empathyImpact = 'Deep despair and hopelessness detected. Patient losing faith in recovery.';
+                    recommendedResponse = 'Provide hope and reassurance. Share success stories and treatment options.';
+                    helpActions = '• Acknowledge their despair: "I hear how hopeless you\'re feeling right now"<br>• Share realistic hope: "Many patients with similar conditions have improved"<br>• Break down treatment into small, achievable steps<br>• Ask: "What would feeling better look like to you?"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'moderate';
+                    // Despair - Dark purple
+                    indicator.style.background = 'linear-gradient(45deg, #4B0082, #663399)';
+                    indicator.style.boxShadow = '0 0 30px #663399';
+                    break;
+                    
+                case 'unwanted':
+                    detectedPhrase = '"I don\'t want to be here"';
+                    empathyImpact = 'Resistance and discomfort detected. Patient feeling forced or uncomfortable.';
+                    recommendedResponse = 'Validate their feelings. Explain the importance of care in a gentle way.';
+                    helpActions = '• Validate: "I understand this isn\'t where you want to be"<br>• Explain gently: "We\'re here because we care about your wellbeing"<br>• Give them some control: "What would make this easier for you?"<br>• Respect their autonomy while ensuring safety';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'low';
+                    // Resistance - Orange-red
+                    indicator.style.background = 'linear-gradient(45deg, #FF4500, #FF6347)';
+                    indicator.style.boxShadow = '0 0 30px #FF6347';
+                    break;
+                    
+                case 'worthless':
+                    detectedPhrase = '"I\'m worthless"';
+                    empathyImpact = 'Self-deprecation and low self-worth detected. Patient experiencing depression.';
+                    recommendedResponse = 'Counter negative self-talk. Emphasize their value and worth as a person.';
+                    helpActions = '• Firmly but gently disagree: "I don\'t see you that way at all"<br>• Highlight their strengths: "I\'ve noticed how [specific positive quality]"<br>• Ask about their support system: "Who in your life would disagree with that?"<br>• Consider mental health referral if persistent';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'moderate';
+                    // Depression - Deep blue
+                    indicator.style.background = 'linear-gradient(45deg, #191970, #4169E1)';
+                    indicator.style.boxShadow = '0 0 30px #4169E1';
+                    break;
+                    
+                case 'stupid':
+                    detectedPhrase = '"I\'m so stupid"';
+                    empathyImpact = 'Self-criticism and shame detected. Patient experiencing low self-esteem.';
+                    recommendedResponse = 'Challenge negative self-talk with compassion and evidence.';
+                    helpActions = '• Respond with: "You\'re not stupid - you\'re dealing with a lot right now"<br>• Normalize their experience: "Many people feel confused when they\'re unwell"<br>• Highlight their intelligence: "You asked really thoughtful questions earlier"<br>• Encourage self-compassion: "How would you talk to a friend feeling this way?"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'low';
+                    // Shame - Maroon
+                    indicator.style.background = 'linear-gradient(45deg, #800000, #B22222)';
+                    indicator.style.boxShadow = '0 0 30px #B22222';
+                    break;
+                    
+                case 'failure':
+                    detectedPhrase = '"I\'m a failure"';
+                    empathyImpact = 'Deep shame and self-blame detected. Patient experiencing depression or anxiety.';
+                    recommendedResponse = 'Reframe their perspective and highlight their efforts and strengths.';
+                    helpActions = '• Challenge the thought: "That\'s not how I see you at all"<br>• Acknowledge their struggle: "You\'re going through something really difficult"<br>• Highlight efforts: "The fact that you\'re here shows you\'re trying"<br>• Ask: "What would you tell someone you care about in this situation?"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'moderate';
+                    // Self-blame - Dark gray
+                    indicator.style.background = 'linear-gradient(45deg, #2F4F4F, #696969)';
+                    indicator.style.boxShadow = '0 0 30px #696969';
+                    break;
+                    
+                case 'burden':
+                    detectedPhrase = '"I\'m a burden"';
+                    empathyImpact = 'Guilt and self-blame detected. Patient feeling like they\'re causing problems.';
+                    recommendedResponse = 'Reassure them of their worth and normalize needing help.';
+                    helpActions = '• Reassure immediately: "You\'re not a burden - you\'re a person who needs care"<br>• Normalize: "Everyone needs help sometimes, that\'s what we\'re here for"<br>• Ask about their support: "Who has told you that you\'re a burden?"<br>• Emphasize: "Taking care of you is our job and our privilege"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'low';
+                    // Guilt - Brown-red
+                    indicator.style.background = 'linear-gradient(45deg, #8B4513, #CD853F)';
+                    indicator.style.boxShadow = '0 0 30px #CD853F';
+                    break;
+                    
+                case 'die':
+                    detectedPhrase = '"I want to die"';
+                    empathyImpact = 'CRITICAL: Suicidal ideation detected. Immediate intervention required.';
+                    recommendedResponse = 'Take seriously, assess safety, provide immediate support and resources.';
+                    helpActions = '• Take it seriously: "I\'m glad you told me how you\'re feeling"<br>• Assess safety: "Are you thinking of hurting yourself right now?"<br>• Stay with them: "You don\'t have to go through this alone"<br>• Get help immediately: Contact mental health crisis team<br>• Follow up: "We\'re going to make sure you get the support you need"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'low';
+                    // Critical danger - Flashing red
+                    indicator.style.background = 'linear-gradient(45deg, #FF0000, #8B0000)';
+                    indicator.style.boxShadow = '0 0 40px #FF0000';
+                    indicator.style.animation = 'pulse 0.5s infinite';
+                    break;
+                    
+                case 'pain':
+                    detectedPhrase = '"I can\'t take the pain"';
+                    empathyImpact = 'Physical or emotional overwhelm detected. Patient at breaking point.';
+                    recommendedResponse = 'Validate their suffering and provide immediate comfort measures.';
+                    helpActions = '• Validate: "I can see you\'re in tremendous pain right now"<br>• Assess: "Can you help me understand what kind of pain - physical, emotional, or both?"<br>• Provide relief: "Let\'s work together to find ways to help you feel better"<br>• Offer hope: "We have several options to help manage your pain"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'moderate';
+                    // Pain - Bright red-orange
+                    indicator.style.background = 'linear-gradient(45deg, #FF1493, #FF69B4)';
+                    indicator.style.boxShadow = '0 0 30px #FF69B4';
+                    break;
+                    
+                case 'alone':
+                    detectedPhrase = '"I\'m all alone"';
+                    empathyImpact = 'Isolation and loneliness detected. Patient feeling disconnected and unsupported.';
+                    recommendedResponse = 'Provide connection and help identify support systems.';
+                    helpActions = '• Connect immediately: "You\'re not alone right now - I\'m here with you"<br>• Explore support: "Tell me about the people in your life"<br>• Validate feelings: "Feeling alone can be really scary and painful"<br>• Offer resources: "Let\'s talk about ways to help you feel more connected"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'low';
+                    // Loneliness - Cold blue
+                    indicator.style.background = 'linear-gradient(45deg, #1E90FF, #87CEEB)';
+                    indicator.style.boxShadow = '0 0 30px #87CEEB';
+                    break;
+                    
+                case 'scared':
+                    detectedPhrase = '"I\'m so scared"';
+                    empathyImpact = 'High anxiety and fear detected. Patient feeling overwhelmed and unsafe.';
+                    recommendedResponse = 'Provide reassurance, safety, and help them feel more in control.';
+                    helpActions = '• Validate: "It makes complete sense that you\'d feel scared"<br>• Provide safety: "You\'re safe here with us"<br>• Explain: "Let me tell you what we\'re going to do to help you"<br>• Give control: "What would help you feel a little safer right now?"<br>• Stay present: "I\'m going to stay right here with you"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'moderate';
+                    // Fear - Yellow-orange (warning)
+                    indicator.style.background = 'linear-gradient(45deg, #FFD700, #FFA500)';
+                    indicator.style.boxShadow = '0 0 30px #FFA500';
+                    break;
+                    
+                case 'angry':
+                    detectedPhrase = '"I hate this place"';
+                    empathyImpact = 'Anger and frustration detected. Patient feeling trapped or mistreated.';
+                    recommendedResponse = 'Acknowledge their anger and explore what\'s behind it.';
+                    helpActions = '• Acknowledge: "I can hear how angry and frustrated you are"<br>• Explore: "What\'s been the most difficult part of being here?"<br>• Validate: "It\'s understandable to feel angry when you\'re not feeling well"<br>• Problem-solve: "What could we do differently to make this better for you?"';
+                    currentPatientNeed = 'high';
+                    currentDoctorEmpathy = 'low';
+                    // Anger - Fiery red-orange
+                    indicator.style.background = 'linear-gradient(45deg, #DC143C, #FF4500)';
+                    indicator.style.boxShadow = '0 0 30px #FF4500';
+                    break;
+            }
+            
+            // Update displays - TURN EVERYTHING RED
+            document.getElementById('patient-need').textContent = 'Critical Need';
+            document.getElementById('patient-need').style.color = '#dc3545';
+            
+            // Turn the entire watch red
+            const watch = document.querySelector('.watch');
+            watch.style.background = '#dc3545';
+            watch.style.border = '8px solid #c82333';
+            
+            // Show word detection with red background
+            wordStatus.innerHTML = `
+                <div style="color: #dc3545; font-weight: bold; margin-bottom: 0.5rem;">
+                    🚨 HARMFUL WORDS DETECTED: ${detectedPhrase}
+                </div>
+                <div style="color: #856404; margin-bottom: 0.5rem;">
+                    Impact: ${empathyImpact}
+                </div>
+                <div style="color: #155724; font-size: 0.9rem;">
+                    Recommendation: ${recommendedResponse}
+                </div>
+            `;
+            wordStatus.style.background = '#f8d7da';
+            wordStatus.style.border = '2px solid #dc3545';
+            
+            // Show help suggestions
+            helpSuggestions.style.display = 'block';
+            helpContent.innerHTML = helpActions;
+            
+            // Force critical alert state - RED EVERYTHING
+            indicator.style.background = 'linear-gradient(45deg, #dc3545, #c82333)';
+            indicator.style.boxShadow = '0 0 25px #dc3545';
+            levelText.textContent = 'CRITICAL';
+            
+            status.textContent = `🚨 CRITICAL: Harmful words detected! Patient in severe emotional distress. Maximum empathy required immediately.`;
+            status.style.background = '#f8d7da';
+            status.style.color = '#721c24';
+            status.style.border = '2px solid #dc3545';
+            
+            // Force hard vibration
+            if (!isVibrating) {
+                toggleVibration();
+            }
+            watchFace.classList.remove('vibrating-soft', 'vibrating-medium');
+            watchFace.classList.add('vibrating-hard');
+            
+            // Update other displays
+            updateMatchLevel(calculateEmpathyGap());
+            
+            // Auto-stop vibration after 5 seconds for harmful words
+            setTimeout(() => {
+                if (isVibrating) {
+                    toggleVibration();
+                }
+                // Reset to normal detection after 15 seconds
+                setTimeout(() => {
+                    // Reset watch appearance
+                    const watch = document.querySelector('.watch');
+                    watch.style.background = '#2c3e50';
+                    watch.style.border = '8px solid #34495e';
+                    
+                    wordStatus.innerHTML = 'Monitoring for harmful words... Room audio analysis active.';
+                    wordStatus.style.color = '#666';
+                    wordStatus.style.background = '#f8f9fa';
+                    wordStatus.style.border = 'none';
+                    
+                    status.style.border = 'none';
+                    
+                    helpSuggestions.style.display = 'none';
+                }, 10000);
+            }, 5000);
+        }
+        
+        // Progressive Web App Installation
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Keep the button visible even if the browser event fires
+            document.getElementById('install-btn').style.display = 'inline-block';
+        });
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                        // Show success message
+                        const btn = document.getElementById('install-btn');
+                        btn.textContent = '✅ App Installing...';
+                        btn.style.background = '#27ae60';
+                        setTimeout(() => {
+                            btn.textContent = '📱 Installed!';
+                        }, 2000);
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                // Fallback for browsers that don't support PWA installation
+                // or when the event hasn't fired yet
+                alert('To install this app:\n\n• On Chrome: Click the menu (⋮) → "Install EMPO APP"\n• On Safari: Tap Share → "Add to Home Screen"\n• On Edge: Click the menu (⋯) → "Apps" → "Install this site as an app"');
+            }
+        }
+        
+        // Register service worker for offline functionality
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZXZlbnQgPT4gewogIGNvbnNvbGUubG9nKCdTZXJ2aWNlIHdvcmtlciBpbnN0YWxsZWQnKTsKfSk7CgpzZWxmLmFkZEV2ZW50TGlzdGVuZXIoJ2ZldGNoJywgZXZlbnQgPT4gewogIGV2ZW50LnJlc3BvbmRXaXRoKGZldGNoKGV2ZW50LnJlcXVlc3QpKTsKfSk7')
+                .then(registration => console.log('SW registered'))
+                .catch(error => console.log('SW registration failed'));
+        }
+        
+        // Initialize with moderate levels
+        updateWatchDisplay();
+        
+        // Automatic harmful word detection system
+        function startAutomaticWordDetection() {
+            const harmfulWords = ['hate', 'hopeless', 'unwanted', 'worthless', 'stupid', 'failure', 'burden', 'die', 'pain', 'alone', 'scared', 'angry'];
+            
+            setInterval(() => {
+                // Simulate random detection of harmful words (10% chance every 3 seconds)
+                if (Math.random() < 0.1) {
+                    const randomWord = harmfulWords[Math.floor(Math.random() * harmfulWords.length)];
+                    simulateHarmfulWord(randomWord);
+                }
+            }, 3000);
+        }
+        
+        // Start with energy detection active after a delay
+        setTimeout(() => {
+            startEnergyDetection();
+            startAutomaticWordDetection(); // Start automatic word detection
+        }, 3000);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993e9e0422aa7d4c',t:'MTc2MTM2MjgzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
